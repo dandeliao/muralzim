@@ -1,4 +1,11 @@
 // ---
+// State
+
+var state = {
+    lastSticker: 0
+}
+
+// ---
 // Drag & drop handlers
 
 function dragstart_handler(e) {
@@ -10,13 +17,24 @@ function dragover_handler(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
 }
+
 function drop_handler(e) {
     e.preventDefault();
     const data = e.dataTransfer.getData("text/plain");
+    
     if (data === 'drag-me') {
+        
         let elNew = document.createElement('div');
+        
         elNew.classList.add('sticker');
+        elNew.setAttribute('id', `sticker-${state.lastSticker + 1}`);
+        elNew.setAttribute('draggable', 'true');
         e.target.appendChild(elNew);
+
+        state.lastSticker++;
+
+        elNew.addEventListener('dragstart', dragstart_handler);
+
         elNew.addEventListener('dblclick', e  => {
             e.target.contentEditable = 'true';
             e.target.focus();
@@ -24,6 +42,11 @@ function drop_handler(e) {
         elNew.addEventListener('blur', e =>  {
             e.target.contentEditable = 'false';
         })
+
+    }  else {
+
+        e.target.appendChild(document.getElementById(data));
+
     }
 }
 
