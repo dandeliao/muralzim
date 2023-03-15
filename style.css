@@ -1,9 +1,11 @@
 header {
     position: relative;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+    gap: 2rem;
     align-items: center;
     height: 50px;
+    padding: 0 2rem;
     border: 1px solid #444444;
     box-shadow: 0px 1px 3px #444444;
     background-color: lightsalmon;
@@ -12,11 +14,36 @@ header {
 
 main {
     position: absolute;
+    flex-direction: row;
     top: 50px;
     left: 0;
     min-height: 20rem;
     min-width: 20rem;
     z-index: 1;
+}
+
+button.flux {
+    background-color: antiquewhite;
+    border-top: 0;
+    border-right: 2px solid #444444;
+    border-bottom: 2px solid #444444;
+    border-left: 0;
+    border-radius: 0.25rem;
+    color: #111111;
+    font-size: 1rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem;
+    cursor: pointer;
+}
+
+button.flux.pressed  {
+    border-top: 2px solid #444444;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 2px solid #444444;
 }
 
 .sticker {
@@ -30,6 +57,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    align-content: flex-start;
     align-items: flex-start;
     padding: 1rem;
     background-color: antiquewhite;
@@ -40,8 +68,10 @@ main {
 }
 
 #drag-me {
-    width: 2.4rem;
-    height: 1.6rem;
+    width: 3rem;
+    height: 1.8rem;
     border: 3px solid #444444;
     background-color: antiquewhite;
+    cursor: grab;
+    text-align: center;
 }

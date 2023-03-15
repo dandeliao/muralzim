@@ -2,7 +2,9 @@
 // State
 
 var state = {
-    lastSticker: 0
+    lastSticker: 0,
+    fluxInPage: 'horizontal', // horizontal || vertical || free
+    fluxInSticker: 'vertical' // horizontal || vertical || free
 }
 
 // ---
@@ -38,6 +40,14 @@ function drop_handler(e) {
         elNew.classList.add('sticker', 'drop-zone');
         elNew.setAttribute('id', `sticker-${state.lastSticker + 1}`);
         elNew.setAttribute('draggable', 'true');
+        switch (state.fluxInSticker) {
+            case 'horizontal':
+                elNew.style.flexDirection = 'row';
+                break;
+            case 'vertical':
+                elNew.style.flexDirection = 'column';
+                break;
+        }
         e.target.appendChild(elNew);
         e.stopPropagation();
 
@@ -70,16 +80,64 @@ function drop_handler(e) {
 // ---
 // Rendering
 
+function renderHeader() {
+
+    let elFluxInPage = document.querySelector('#flux-in-page');
+    let elFluxInSticker = document.querySelector('#flux-in-sticker');
+
+    for (let child of elFluxInPage.children) {
+        if (child.classList.contains(state.fluxInPage)) {
+            child.ariaPressed = 'true';
+            child.classList.add('pressed');
+        } else {
+            child.ariaPressed = 'false';
+            child.classList.remove('pressed');
+        }
+    }
+    for (let child of elFluxInSticker.children) {
+        if (child.classList.contains(state.fluxInSticker)) {
+            child.ariaPressed = 'true';
+            child.classList.add('pressed');
+        } else {
+            child.ariaPressed = 'false';
+            child.classList.remove('pressed');
+        }
+    }
+
+}
+
 function renderMain() {
 
     let elMain = document.querySelector('main');
     elMain.style.minWidth = window.innerWidth + 'px';
     elMain.style.minHeight = window.innerHeight - 50 + 'px';
 
+    switch (state.fluxInPage) {
+        case 'horizontal':
+            elMain.style.flexDirection = 'row';
+            break;
+        case 'vertical':
+            elMain.style.flexDirection = 'column';
+            break;
+    }
+    
+    allChildren(elMain, (element) => {
+        if (element.classList.contains('sticker')) {
+            switch (state.fluxInSticker) {
+                case 'horizontal':
+                    element.style.flexDirection = 'row';
+                    break;
+                case 'vertical':
+                    element.style.flexDirection = 'column';
+                    break;
+            }
+        }
+    });
+
 }
 
 // ---
-// Main events
+// Initial setup
 
 window.addEventListener('DOMContentLoaded', e => {
 
@@ -94,6 +152,45 @@ window.addEventListener('DOMContentLoaded', e => {
     elMain.addEventListener('drop', drop_handler);
     elDragMe.addEventListener('dragstart', dragstart_handler);
 
+    renderHeader();
+
+    let elFluxInPage = document.querySelector('#flux-in-page');
+    let elFluxInSticker = document.querySelector('#flux-in-sticker');
+
+    for (let child of elFluxInPage.children) {
+        if (child.classList.contains('flux')) {
+            child.addEventListener('click', e => {
+                let btn = e.target;
+                if (btn.classList.contains('horizontal')) {
+                    state.fluxInPage = 'horizontal';
+                } else if (btn.classList.contains('vertical')) {
+                    state.fluxInPage = 'vertical';
+                } else if (btn.classList.contains('free')) {
+                    state.fluxInPage = 'free';
+                }
+                console.log(state);
+                renderHeader();
+                renderMain();
+            });
+        }
+    }
+    for (let child of elFluxInSticker.children) {
+        if (child.classList.contains('flux')) {
+            child.addEventListener('click', e => {
+                let btn = e.target;
+                if (btn.classList.contains('horizontal')) {
+                    state.fluxInSticker = 'horizontal';
+                } else if (btn.classList.contains('vertical')) {
+                    state.fluxInSticker = 'vertical';
+                } else if (btn.classList.contains('free')) {
+                    state.fluxInSticker = 'free';
+                }
+                renderHeader();
+                renderMain();
+            });
+        }
+    }
+
 });
 
 window.addEventListener('resize', e => {
@@ -101,3 +198,14 @@ window.addEventListener('resize', e => {
     renderMain();
 
 });
+
+// ---
+// Auxiliary functions
+
+function allChildren (node, callback) {
+    for (var i = 0; i < node.children.length; i++) {
+      var child = node.children[i];
+      allChildren(child, callback);
+      callback(child);
+    }
+}
