@@ -3,8 +3,8 @@
 
 var state = {
     lastSticker: 0,
-    fluxInPage: 'horizontal', // horizontal || vertical || free
-    fluxInSticker: 'vertical' // horizontal || vertical || free
+    flux: 'column', // column || row
+    theme: 'light' // light || dark
 }
 
 // ---
@@ -40,6 +40,7 @@ function drop_handler(e) {
         elNew.classList.add('sticker', 'drop-zone');
         elNew.setAttribute('id', `sticker-${state.lastSticker + 1}`);
         elNew.setAttribute('draggable', 'true');
+        elNew.innerText = 'double-click to edit text...';
         switch (state.fluxInSticker) {
             case 'horizontal':
                 elNew.style.flexDirection = 'row';
@@ -82,11 +83,9 @@ function drop_handler(e) {
 
 function renderHeader() {
 
-    let elFluxInPage = document.querySelector('#flux-in-page');
-    let elFluxInSticker = document.querySelector('#flux-in-sticker');
-
-    for (let child of elFluxInPage.children) {
-        if (child.classList.contains(state.fluxInPage)) {
+    let elFlux = document.querySelector('#flux');
+    for (let child of elFlux.children) {
+        if (child.classList.contains(state.flux)) {
             child.ariaPressed = 'true';
             child.classList.add('pressed');
         } else {
@@ -94,14 +93,26 @@ function renderHeader() {
             child.classList.remove('pressed');
         }
     }
-    for (let child of elFluxInSticker.children) {
-        if (child.classList.contains(state.fluxInSticker)) {
+
+    let elTheme = document.querySelector('#theme');
+    for (let child of elTheme.children) {
+        if (child.classList.contains(state.theme)) {
             child.ariaPressed = 'true';
             child.classList.add('pressed');
         } else {
             child.ariaPressed = 'false';
             child.classList.remove('pressed');
         }
+    }
+
+    let cssTheme = document.getElementById('css-theme');
+    switch (state.theme) {
+        case 'light':
+            cssTheme.href = 'theme-light.css';
+            break;
+        case 'dark':
+            cssTheme.href = 'theme-dark.css';
+            break;
     }
 
 }
@@ -112,23 +123,23 @@ function renderMain() {
     elMain.style.minWidth = window.innerWidth + 'px';
     elMain.style.minHeight = window.innerHeight - 50 + 'px';
 
-    switch (state.fluxInPage) {
-        case 'horizontal':
+    switch (state.flux) {
+        case 'column':
             elMain.style.flexDirection = 'row';
             break;
-        case 'vertical':
+        case 'row':
             elMain.style.flexDirection = 'column';
             break;
     }
     
     allChildren(elMain, (element) => {
         if (element.classList.contains('sticker')) {
-            switch (state.fluxInSticker) {
-                case 'horizontal':
-                    element.style.flexDirection = 'row';
-                    break;
-                case 'vertical':
+            switch (state.flux) {
+                case 'column':
                     element.style.flexDirection = 'column';
+                    break;
+                case 'row':
+                    element.style.flexDirection = 'row';
                     break;
             }
         }
@@ -154,19 +165,29 @@ window.addEventListener('DOMContentLoaded', e => {
 
     renderHeader();
 
-    let elFluxInPage = document.querySelector('#flux-in-page');
-    let elFluxInSticker = document.querySelector('#flux-in-sticker');
+    let elTrash = document.querySelector('#trash');
+    let elFlux = document.querySelector('#flux');
+    let elTheme = document.querySelector('#theme');
 
-    for (let child of elFluxInPage.children) {
+    elTrash.addEventListener('dragover', dragover_handler);
+    elTrash.addEventListener('dragleave', dragleave_handler);
+    elTrash.addEventListener('drop', e => {
+        e.preventDefault();
+        e.target.classList.remove('drag-over');
+        const data = e.dataTransfer.getData("text/plain");
+        if (data !== 'drag-me') {
+            document.getElementById(data).remove();
+        }
+    });
+
+    for (let child of elFlux.children) {
         if (child.classList.contains('flux')) {
             child.addEventListener('click', e => {
                 let btn = e.target;
-                if (btn.classList.contains('horizontal')) {
-                    state.fluxInPage = 'horizontal';
-                } else if (btn.classList.contains('vertical')) {
-                    state.fluxInPage = 'vertical';
-                } else if (btn.classList.contains('free')) {
-                    state.fluxInPage = 'free';
+                if (btn.classList.contains('column')) {
+                    state.flux = 'column';
+                } else if (btn.classList.contains('row')) {
+                    state.flux = 'row';
                 }
                 console.log(state);
                 renderHeader();
@@ -174,23 +195,22 @@ window.addEventListener('DOMContentLoaded', e => {
             });
         }
     }
-    for (let child of elFluxInSticker.children) {
-        if (child.classList.contains('flux')) {
+
+    for (let child of elTheme.children) {
+        if (child.classList.contains('theme')) {
             child.addEventListener('click', e => {
                 let btn = e.target;
-                if (btn.classList.contains('horizontal')) {
-                    state.fluxInSticker = 'horizontal';
-                } else if (btn.classList.contains('vertical')) {
-                    state.fluxInSticker = 'vertical';
-                } else if (btn.classList.contains('free')) {
-                    state.fluxInSticker = 'free';
+                if (btn.classList.contains('light')) {
+                    state.theme = 'light';
+                } else if (btn.classList.contains('dark')) {
+                    state.theme = 'dark';
                 }
+                console.log(state);
                 renderHeader();
                 renderMain();
-            });
+            })
         }
     }
-
 });
 
 window.addEventListener('resize', e => {

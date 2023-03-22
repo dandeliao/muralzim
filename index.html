@@ -5,25 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>muralzim</title>
     <link rel="stylesheet" href="minireset.css">
+    <link rel="stylesheet" href="theme-light.css" id="css-theme">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <header>
-        <div id="drag-me" draggable="true">drag</div>
-        <div id="flux-in-page">
-            <span>flux in page:</span>
-            <button class="flux horizontal">h</button>
-            <button class="flux vertical">v</button>
-            <button class="flux free">f</button>
+        <div id="drag-me" class="source" draggable="true">drag</div>
+        <div id="flux">
+            <button class="flux column">c</button>
+            <button class="flux row">r</button>
         </div>
-        <div id="flux-in-sticker">
-            <span>flux in stickers:</span>
-            <button class="flux horizontal">h</button>
-            <button class="flux vertical">v</button>
-            <button class="flux free">f</button>
+        <span>muralzim</span>
+        <div id="theme">
+            <button class="theme dark">d</button>
+            <button class="theme light">l</button>
         </div>
+        <div id="trash" class="sink">drop</div>
     </header>
     <main class="drop-zone"></main>
 

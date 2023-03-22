@@ -1,18 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
 header {
+    font-family: 'Quicksand', sans-serif;
     position: relative;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 2rem;
     align-items: center;
     height: 50px;
     padding: 0 2rem;
-    border: 1px solid #444444;
-    box-shadow: 0px 1px 3px #444444;
-    background-color: lightsalmon;
+    border: 1px solid var(--border-color);
+    box-shadow: 0px 1px 3px var(--border-color);
+    color: var(--font-color);
+    background-color: var(--header-background);
     z-index: 2;
 }
 
 main {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--font-color);
     position: absolute;
     flex-direction: row;
     top: 50px;
@@ -22,14 +28,14 @@ main {
     z-index: 1;
 }
 
-button.flux {
-    background-color: antiquewhite;
+button {
+    background-color: var(--main-background);
     border-top: 0;
-    border-right: 2px solid #444444;
-    border-bottom: 2px solid #444444;
+    border-right: 2px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
     border-left: 0;
     border-radius: 0.25rem;
-    color: #111111;
+    color: inherit;
     font-size: 1rem;
     line-height: 1.2;
     white-space: nowrap;
@@ -39,18 +45,18 @@ button.flux {
     cursor: pointer;
 }
 
-button.flux.pressed  {
-    border-top: 2px solid #444444;
+button.pressed  {
+    border-top: 2px solid var(--border-color);
     border-right: 0;
     border-bottom: 0;
-    border-left: 2px solid #444444;
+    border-left: 2px solid var(--border-color);
 }
 
 .sticker {
     flex-direction: column;
     min-width: 16rem;
     min-height: 12rem;
-    border: 3px solid #444444;
+    border: 3px solid var(--font-color);
 }
 
 .drop-zone {
@@ -60,18 +66,18 @@ button.flux.pressed  {
     align-content: flex-start;
     align-items: flex-start;
     padding: 1rem;
-    background-color: antiquewhite;
+    background-color: var(--main-background);
 }
 
 .drag-over {
-    background-color: lightsalmon;
+    background-color: var(--header-background);
 }
 
-#drag-me {
+.source, .sink {
     width: 3rem;
     height: 1.8rem;
-    border: 3px solid #444444;
-    background-color: antiquewhite;
+    border: 3px solid var(--border-color);
+    background-color: var(--main-background);
     cursor: grab;
     text-align: center;
 }
