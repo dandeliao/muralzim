@@ -54,9 +54,10 @@ button.pressed  {
 
 .sticker {
     flex-direction: column;
-    min-width: 16rem;
-    min-height: 12rem;
-    border: 3px solid var(--font-color);
+    min-width: 8rem;
+    min-height: 4rem;
+    border: 1px solid var(--font-color);
+    border-radius: 3px;
 }
 
 .drop-zone {
@@ -74,10 +75,14 @@ button.pressed  {
 }
 
 .source, .sink {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
     width: 3rem;
-    height: 1.8rem;
-    border: 3px solid var(--border-color);
+    height: 1.9rem;
+    border: 1px dashed var(--border-color);
+    border-radius: 3px;
     background-color: var(--main-background);
     cursor: grab;
-    text-align: center;
 }
