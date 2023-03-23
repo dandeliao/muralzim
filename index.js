@@ -41,12 +41,12 @@ function drop_handler(e) {
         elNew.setAttribute('id', `sticker-${state.lastSticker + 1}`);
         elNew.setAttribute('draggable', 'true');
         elNew.innerText = 'double-click to edit text...';
-        switch (state.fluxInSticker) {
-            case 'horizontal':
-                elNew.style.flexDirection = 'row';
-                break;
-            case 'vertical':
+        switch (state.flux) {
+            case 'column':
                 elNew.style.flexDirection = 'column';
+                break;
+            case 'row':
+                elNew.style.flexDirection = 'row';
                 break;
         }
         e.target.appendChild(elNew);
