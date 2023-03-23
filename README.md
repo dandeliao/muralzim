@@ -1,9 +1,9 @@
 # muralzim
-an exercise on drag & drop interfaces with vanilla javascript
+An exercise on drag & drop interfaces with vanilla javascript
 
 ## Overview
 
-It is a simple html + css + js website which functions as a mural for posting notes for yourself. 
+The website functions as a mural for posting notes for yourself.
 
 Some functionalities:
 
